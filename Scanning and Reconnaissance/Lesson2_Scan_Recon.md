@@ -16,7 +16,7 @@
 - What should we include in documentation?
 
 ## OSINT Process Results
-![](images/OSINT_Process_Results.png)
+![](https://github.com/jdbonner/Security/blob/main/images/OSINT_Process_Results.png?raw=true)
 
 ## Collection and Use
 - What do we want to collect?
