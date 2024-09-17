@@ -7,10 +7,6 @@
 ## FG
 https://sec.cybbh.io/public/security/latest/index.html
 
-
-## Slides
-
-
 ## Map
 https://app.diagrams.net/#
 
@@ -18,6 +14,7 @@ https://app.diagrams.net/#
 http://vta.cybbh.space/
 > ipa
 
-
+## exploit database research
+https://www.exploit-db.com/
 
 
