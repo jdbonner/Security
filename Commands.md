@@ -22,14 +22,16 @@ Authors:  ['Albert Einstein', 'J.K. Rowling', 'Albert Einstein', 'Jane Austen', 
 ```
 
 ## proxychains nmap scripts
+```
 proxychains nmap -T5 --script=banner <ip>
 proxychains nmap -T5 --script=http-enum <ip>
 proxychains nmap -T5 --script=http-enum.nse <ip>
-
+```
 
 ## finding a script
+```
 ls -l /usr/share/nmap/scripts | grep "something"
-
+```
 
 
 
