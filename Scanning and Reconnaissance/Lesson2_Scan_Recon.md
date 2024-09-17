@@ -1,4 +1,5 @@
 # Scanning and Reconnaissance
+https://sec.cybbh.io/public/security/latest/lessons/lesson-2-recon_sg.html
 
 ## Open Source Intelligence
 - During the lesson we will review the following topics:
