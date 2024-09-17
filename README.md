@@ -1,5 +1,5 @@
-# Praise the SUN!
-![](https://jorgemarme.com/post/634507581336993792/solaire-of-astora-praise-the-sun-the-sunny)
+# Rest at the bonfire...
+![Take a rest](https://banner2.cleanpng.com/20180325/irq/av0asjtr0.webp)
 
 
 
