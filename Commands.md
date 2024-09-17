@@ -53,9 +53,3 @@ ls -l /usr/share/nmap/scripts | grep "something"
 
 
 
-
-
-
-
-
-
