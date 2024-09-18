@@ -99,6 +99,25 @@ ssh -S /tmp/t1 t1 -O forward -L6666:192.168.50.10:22 -L7777:192.168.50.20:22
 ssh -MS /tmp/t2 creds@127.0.0.1 -p 6666
 ```
 
+## Website enumeration
+```
+--script=http-enum
+```
+## Nikto
+```
+nikto v -h <IP address>
+```
+> use with TCPdump.
+
+
+
+
+
+
+
+
+
+
 
 
 
