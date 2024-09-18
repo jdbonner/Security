@@ -112,8 +112,8 @@ function myFunction() {
 - Transient, occurs in error messages or search results
 - Delivered through intermediate media, such as a link in an email
 - Characters that are normally illegal in URLs can be Base64 encoded
-- Below is what you see, but the server will decode as name=abc123
-- http://example.com/page.php?name=dXNlcjEyMw
+- Below is what you see, but the server will decode as ```name=abc123```
+  - http://example.com/page.php?name=dXNlcjEyMw
 
 ## Stored XSS
 - Resides on vulnerable site
@@ -137,7 +137,7 @@ function myFunction() {
 ## Server-Side injection
 > Directory Traversal/Path Traversal
 - Ability to read/execute outside web server’s directory
-- Uses ../../ (relative paths) in manipulating a server-side file path
+- Uses ```../../``` (relative paths) in manipulating a server-side file path
 > view_image.php?file=../../etc/passwd
 
 ## Malicious File Upload
