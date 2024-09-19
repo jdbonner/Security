@@ -19,5 +19,5 @@ https://www.exploit-db.com/
 
 ## useful Links
 ### SQL Server
-https://www.w3schools.com/SQL/sql_syntax.asp
-https://sqlbolt.com/
+- https://www.w3schools.com/SQL/sql_syntax.asp
+- https://sqlbolt.com/
