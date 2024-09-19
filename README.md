@@ -17,4 +17,7 @@ http://vta.cybbh.space/
 ## exploit database research
 https://www.exploit-db.com/
 
-
+## useful Links
+### SQL Server
+https://www.w3schools.com/SQL/sql_syntax.asp
+https://sqlbolt.com/
