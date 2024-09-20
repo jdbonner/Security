@@ -59,7 +59,7 @@ https://git.cybbh.space/sec/public/-/jobs/artifacts/master/raw/guides/Reverse_en
 - Execute Patched Binary
 
 
-## Assemlby example
+## Assembly example
 ```
 main:
   mov rax, 16         //move in rax the value of 16.
