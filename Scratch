@@ -474,20 +474,17 @@ Nmap done: 1 IP address (1 host up) scanned in 0.58 seconds
 
 
 
-Gorgas Reverse Engineering (GRE)
-XX Sep 2025
-Start Time: 1300
-Duration: 4 hours
 
-Type of Operation: DEVOPS
 
-Objective: Intel has identified that the Donovian_Webserver (192.168.28.111) is hosting binaries via port 80 at the following URI /longTermStorage. We have been tasked with pulling the binaries back into blue space to conduct Reverse Enineering operations. Conduct Reverse Engineering (disassemble, debug) on collected files, determine functionality and methods to successfully execute files.
+Objective: 
+Intel has identified that the Donovian_Webserver (192.168.28.111) is hosting binaries via port 80 at the following URI /longTermStorage.
+We have been tasked with pulling the binaries back into blue space to conduct Reverse Enineering operations. 
+Conduct Reverse Engineering (disassemble, debug) on collected files, determine functionality and methods to successfully execute files.
 
-Tools/Techniques: Ghidra, IDA, and GDB.
 
-Scenario Credentials: FLAG = R3V3R535t@rt0F@ct1v1ty
-
-Prior Approvals:All files can be extracted from the known target "Donovian-Webserver". Only authorized to conduct task on Analyst Workstations.
+Prior Approvals:
+All files can be extracted from the known target "Donovian-Webserver". 
+Only authorized to conduct task on Analyst Workstations.
 
 T1
 Hostname: web.site.donovia
@@ -502,30 +499,42 @@ Action: Extract approved binaries under directory titled "longTermStorage".
 
 
 
+ssh -MS /tmp/jump student@10.50.35.126
 
 
+ssh -S /tmp/jump jump -O forward -D9050
 
 
+proxychains nmap -Pn -T5 192.168.28.111
+
+Nmap scan report for 192.168.28.111
+Host is up (0.00052s latency).
+Not shown: 997 closed ports
+PORT     STATE SERVICE
+80/tcp   open  http
+2222/tcp open  EtherNetIP-1
+8080/tcp open  http-proxy
 
 
+ssh -S /tmp/jump jump -O forward -L8001:192.168.28.111:80 -L20001:192.168.28.111:2222 -L8002:192.168.28.111:8080
 
 
+ssh -MS /tmp/t1 student@127.0.0.1 -p 8001
 
 
+92
+138
+184
+230
+276
+322
+368
+414
+460
+506
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+2990
 
 
 
