@@ -51,8 +51,6 @@ https://git.cybbh.space/sec/public/-/jobs/artifacts/master/raw/guides/Reverse_en
 ![](https://github.com/jdbonner/Security/blob/main/images/reverse_engine_workflow.png)
 
 
-
-
 ## Portable Executable Patching / Software Analysis
 - Perform Debugging and Disassembly
 - Find the Success/Failure
@@ -61,7 +59,39 @@ https://git.cybbh.space/sec/public/-/jobs/artifacts/master/raw/guides/Reverse_en
 - Execute Patched Binary
 
 
+## Assemlby example
+```
+main:
+  mov rax, 16         //move in rax the value of 16.
+  push rax            //push the value of rax (16) onto the stack. stack grows by     8 bytes.
+  jmp mem2            //jump to mem2 function
 
+mem1:       
+  mov rax, 8          //move in rax the value of 8
+  ret                 //return the value of what is in the first return registry.
+
+mem2:   
+  pop r8              //pop the value at the top of the stack (16) into r8
+  cmp rax, r8         //compare to the value of rax (16) the value of r8 (16). They are equal; zero flag is set.
+  je mem1             //zero flag from last instruction is set. jump to mem1 function.
+```
+## Assembly example 2
+```
+main:
+  mov rcx, 25       //move into rcx the value of 25
+  mov rbx, 62       //move into rbx the value of 62
+  jmp mem1          //jump to location mem1
+
+mem1:
+  sub rbx, 40       //subtract from rbx the value of 40, rbx is now 22
+  mov rsi, rbx      //move rsi into rbx
+  cmp rcx, rsi      //compare the value of rcx (25) to the value of rsi (22). flag indicating less than is set.
+  jle mem2          //jump if less than or equal to flag is set. rsi is less than rcx, jump to mem2.
+
+mem2:
+  mov rax, 0        //move into rax the value of 0
+  ret               //returns the value of what is in the first return registry. returns 0
+```
 
 
 
