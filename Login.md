@@ -25,6 +25,7 @@ jump  =  10.50.35.126
 ## Command
 ```
 XFREERDP Syntax: xfreerdp /v:10.50.40.8 /u:student /p:password /size:1920x1000 +clipboard
+xfreerdp /v:10.50.40.8 /u:student /p:password /dynamic-resolution +clipboard
 ssh username@10.50.30.299 -X
 ```
 
