@@ -210,6 +210,12 @@ get-content -first 2 .\demo1_new.exe
 - ghidra
 - strings.exe
 
+### steps for reverse engineering
+- open ghidra
+- look at static code
+- run strings on code
+- run code
+- search file in ghidra for the string
 
 
 
