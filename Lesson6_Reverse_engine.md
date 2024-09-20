@@ -44,7 +44,14 @@ RIP     -  EIP            -  IP             -  Instruction Pointer; holds addres
 - Dynamic
 - Disassembly
 - Document Findings
-- Reverse Engineering Workflow    #https://git.cybbh.space/sec/public/-/jobs/artifacts/master/raw/guides/Reverse_engineering_workflow.pdf?job=genpdf
+- Reverse Engineering Workflow
+```
+https://git.cybbh.space/sec/public/-/jobs/artifacts/master/raw/guides/Reverse_engineering_workflow.pdf?job=genpdf
+```
+![](https://github.com/jdbonner/Security/blob/main/images/reverse_engine_workflow.png)
+
+
+
 
 ## Portable Executable Patching / Software Analysis
 - Perform Debugging and Disassembly
