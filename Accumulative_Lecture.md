@@ -586,7 +586,7 @@ https://git.cybbh.space/sec/public/-/jobs/artifacts/master/raw/guides/Reverse_en
 ```
 main:
   mov rax, 16         //move in rax the value of 16.
-  push rax            //push the value of rax (16) onto the stack. stack grows by     8 bytes.
+  push rax            //push the value of rax (16) onto the stack. stack grows by 8 bytes.
   jmp mem2            //jump to mem2 function
 
 mem1:       
