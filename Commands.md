@@ -198,14 +198,17 @@ UNION SELECT table_schema,column_name,table_name from information_schema.columns
 
 
 
+## Reverse engineering
+### useful powershell commands
+```
+get-content -first 2 .\demo1_new.exe
 
 
 
-
-
-
-
-
+```
+### Useful program
+- ghidra
+- strings.exe
 
 
 
