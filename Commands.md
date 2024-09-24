@@ -217,17 +217,54 @@ get-content -first 2 .\demo1_new.exe
 - run code
 - search file in ghidra for the string
 
+## Exploit Development
+
+### useful programs
+```
+GDB
+MONA
+IMMUNITY
+```
+
+### useful linux commands
+```
+strings
+file
+<<<    #can be used to pass a string to an executable as input
+
+```
+### GDB demo commands
+```
+info
+info functions
+pdisass getuserinput
+
+env - gdb ./func
+unset env COLUMNS
+unset env LINES
+
+info proc map
 
 
+```
+find /b 0xf7de1000, 0xffffe000, 0xff, 0xe4
 
+first 4
 
+0xf7de3b59
+0xf7f588ab
+0xf7f645fb
+0xf7f6460f
 
+### msfconsole stuff
+```
+msfconsole
+use payload/linux/x86/exec
+show options
+set CMD whoami
+generate -b '\x00' -f python
 
-
-
-
-
-
+```
 
 
 
