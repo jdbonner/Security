@@ -21,3 +21,6 @@ https://www.exploit-db.com/
 ### SQL Server
 - https://www.w3schools.com/SQL/sql_syntax.asp
 - https://sqlbolt.com/
+
+### buffer overflow
+- https://wiremask.eu/
