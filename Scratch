@@ -662,9 +662,78 @@ find /b 0xf7def000, 0xffffe000, 0xff, 0xe4
 
 
 
+Situation: 
+Other teams have identified a networked binary from a Donovian development network, a copy is located with the /longTermStorage on the Donovian Webserver. 
+It is common software for the region and is believed to be running in both the Donovian and Gorgan internal networks. 
+Discover vulnerabilities and create a reliable exploit to gain remote access. 
+This will enable remote exploitation against Donovian targets and provide the basis for developing mitigations on friendly Gorgan networks.
+
+Provided:
+Executable Package: 
+SecureServerind.exe 
+essfunc.dll
+
+Task: 
+Perform a remote buffer overflow on the vulnerable Windows executable from your Linux_analyst box. 
+Gain a shell using exploit code Method: Utilize RE toolset and python to launch and develop exploit.
+
+>Jump Box
+->donovian_grey_host
+-->T3: 192.168.150.245
+
+T2
+Hostname: Donovian-Terminal
+IP: 192.168.28.105
+OS: unknown
+Creds: comrade :: StudentReconPassword
+Last Known SSH Port: 2222
+
+T3
+Hostname: unknown
+IP: 192.168.150.245
+OS: unknown
+Creds:unknown
+Last Known SSH Port: unknown
+PSP: Unknown
+Malware: Unknown
+Action: Exploit a network service on the machine
 
 
 
+Launch your remote exploit at the Donovian Windows target on 192.168.150.245 to gain initial access. 
+Your flag is within the public documents .
+
+Nmap scan report for 192.168.28.105
+Host is up (0.00045s latency).
+Not shown: 997 closed ports
+PORT     STATE SERVICE
+21/tcp   open  ftp
+23/tcp   open  telnet
+2222/tcp open  EtherNetIP-1
+
+ssh -S /tmp/jump t1 -O forward -L10001:192.168.28.105:2222
+
+ssh -MS /tmp/T1 comrade@127.0.0.1 -p 10001
+
+ssh -S /tmp/T1 dynamo -O forward -D9050
+
+Nmap scan report for 192.168.150.245
+Host is up (0.00066s latency).
+Not shown: 995 closed ports
+PORT     STATE SERVICE
+135/tcp  open  msrpc
+139/tcp  open  netbios-ssn
+445/tcp  open  microsoft-ds
+3389/tcp open  ms-wbt-server
+9999/tcp open  abyss
+
+-L10002:192.168.150.245:
+-L10002:192.168.150.245:
+-L10002:192.168.150.245:
+-L10002:192.168.150.245:
+-L10002:192.168.150.245:9999
+
+ssh -S /tmp/T1 t3 -O forward -L10002:192.168.150.245:9999
 
 
 
