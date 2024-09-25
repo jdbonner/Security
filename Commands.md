@@ -287,9 +287,6 @@ file
 
 
 
-
-
-
 ### Example of script
 ```
 #!/usr/bin/env python
