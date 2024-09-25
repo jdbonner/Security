@@ -233,7 +233,7 @@ file
 <<<    #can be used to pass a string to an executable as input
 
 ```
-### steps
+### steps for linux
 - determin type of input the executable can take
 - determin how much input executable can take
 - analyze the program to determine method to exploit
@@ -262,6 +262,8 @@ file
 - set the eip as the converted bytes
 - ensure nop sled is set to ```"\x90" * 15```. the number can be between 10 and 20
 - place code from msfconsole below for shell
+
+
 ### Example of script
 ```
 #!/usr/bin/env python
@@ -324,6 +326,37 @@ msfvenom -p linux/x86/exec CMD=whoami -b '\x00' -f python
 ./func <<<$(./linbuffer.py)
 
 ```
+### Windows
+- run immunity debugger as admin
+```
+netstat -anop tcp
+
+
+```
+### Script example
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
