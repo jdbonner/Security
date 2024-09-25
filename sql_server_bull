@@ -910,3 +910,94 @@ share4	data
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+sqlinjection	categories
+              categories	id
+              categories	name
+              categories	description
+
+sqlinjection	members
+              members	id
+              members	username
+              members	password
+              members	first_name
+              members	last_name
+              members	email
+              members	permission
+
+sqlinjection	orderlines
+              orderlines	id
+              orderlines	quantity
+              orderlines	product
+              orderlines	order
+
+sqlinjection	orders
+              orders	id
+              orders	date
+              orders	member
+
+sqlinjection	payments
+              payments	id
+              payments	creditcard_number
+              payments	date
+              payments	order
+
+sqlinjection	permissions
+              permissions	id
+              permissions	level
+              permissions	name
+              permissions	description
+
+sqlinjection	products
+              products	id
+              products	name
+              products	description
+              products	price
+              products	qty_left
+              products	category
+
+sqlinjection	share4
+              share4	id
+              share4	comment
+              share4	mime
+              share4	data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
