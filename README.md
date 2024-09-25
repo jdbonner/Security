@@ -7,6 +7,9 @@
 ## FG
 https://sec.cybbh.io/public/security/latest/index.html
 
+## File Transfer help
+https://github.com/jdbonner/Networking/blob/main/Movement_Redirection/Commands.md
+
 ## Map
 https://app.diagrams.net/#
 
@@ -24,3 +27,7 @@ https://www.exploit-db.com/
 
 ### buffer overflow
 - https://wiremask.eu/
+
+
+
+
