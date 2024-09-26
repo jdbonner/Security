@@ -441,7 +441,22 @@ s.close() ## Close the socket
 
 
 
+### Using Stolen SSH Keys
+- Bring private key to your own box
+- On your box:
+```
+chmod 600 /home/student/stolenkey
+ssh -i /home/student/stolenkey jane@1.2.3.4
+```
+> ssh as the user who is the original key owner
 
+
+
+```
+/etc/hosts
+/etc/users
+sudo -l
+```
 
 
 
